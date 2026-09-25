@@ -20,6 +20,10 @@ fn log(severity: &str, message: &str) {
     println!("{}", json!({ "severity": severity, "message": message }));
 }
 
+async fn root() -> Json<serde_json::Value> {
+    Json(json!({ "service": "word counter", "try": "POST /count with {\"text\": \"...\"}" }))
+}
+
 async fn health() -> Json<serde_json::Value> {
     Json(json!({ "status": "ok" }))
 }
@@ -40,6 +44,7 @@ async fn main() {
     // Light Cloud passes the port in PORT; 8080 matches EXPOSE in the Dockerfile.
     let port = std::env::var("PORT").unwrap_or_else(|_| "8080".into());
     let app = Router::new()
+        .route("/", get(root))
         .route("/health", get(health))
         .route("/count", post(count));
 
