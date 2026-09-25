@@ -21,7 +21,7 @@ fn log(severity: &str, message: &str) {
 }
 
 async fn root() -> Json<serde_json::Value> {
-    Json(json!({ "service": "word counter", "try": "POST /count with {\"text\": \"...\"}" }))
+    Json(json!({ "service": "word counter", "version": 2, "try": "POST /count with {\"text\": \"...\"}" }))
 }
 
 async fn health() -> Json<serde_json::Value> {
